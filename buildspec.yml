@@ -5,10 +5,23 @@ phases:
     runtime-versions:
       nodejs: 18  # Specifies Node.js version 18 for the build environment
 
+  pre_build:
+    commands:
+      - echo "Downloading out.txt from S3..."
+      - curl -o out.txt https://codepipeline-ap-south-1-402428956422.s3.ap-south-1.amazonaws.com/outart/out.txt
+      - export CONTENT=$(cat out.txt)
+      - echo "Content of out.txt: $CONTENT"
+
   build:
     commands:
-      - npm install   # Installs all dependencies listed in package.json
-      - npm run build # Runs the build script defined in package.json
+      - |
+        if [ "$CONTENT" == "frontend" ]; then
+          echo "Detected frontend update. Proceeding with build..."
+          npm install   # Installs all dependencies listed in package.json
+          npm run build # Runs the build script defined in package.json
+        else
+          echo "No frontend update detected. Skipping build..."
+        fi
 
 artifacts:
   files:
