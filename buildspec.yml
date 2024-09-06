@@ -14,8 +14,7 @@ phases:
 
   build:
     commands:
-      - |
-        if [ "$CONTENT" == "frontend" ]; then
+      - if [ "$CONTENT" == "frontend" ]; then
           echo "Detected frontend update. Proceeding with build..."
           npm install   # Installs all dependencies listed in package.json
           npm run build # Runs the build script defined in package.json
