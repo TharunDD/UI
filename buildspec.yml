@@ -21,16 +21,21 @@ phases:
           echo "Detected frontend update. Proceeding with build..."
           npm install   # Installs all dependencies listed in package.json
           npm run build # Runs the build script defined in package.json
+
+          echo "Preparing artifacts for upload..."
+          mkdir -p artifact_output  # Create a directory to hold the artifacts
+          cp -r public/* artifact_output/  # Copy public directory contents
+          cp -r src/* artifact_output/     # Copy src directory contents
+          cp package.json artifact_output/  # Copy package.json
+          cp appspec.yml artifact_output/   # Copy appspec.yml
+          cp -r scripts/* artifact_output/  # Copy scripts directory contents
+          cp -r build/* artifact_output/    # Copy build directory contents
         else
-          echo "No frontend update detected. Skipping build..."
+          echo "No frontend update detected. Skipping build and exiting..."
           exit 0
         fi
 
 artifacts:
   files:
-    - "public/**/*"    # Includes all files in the public directory and its subdirectories
-    - "src/**/*"       # Includes all files in the src directory and its subdirectories
-    - "package.json"   # Includes the package.json file
-    - "appspec.yml"    # Includes the appspec.yml file (for CodeDeploy)
-    - "scripts/**/*"   # Includes all files in the scripts directory and its subdirectories
-    - "build/**/*"     # Includes all files in the build directory and its subdirectories
+    - "artifact_output/**/*"  # Include everything from the artifact_output directory
+  discard-paths: yes
