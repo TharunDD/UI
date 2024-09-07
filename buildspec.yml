@@ -9,10 +9,12 @@ phases:
   pre_build:
     commands:
       - "echo Checking for the latest updated repository to build the output to increase"
-      - "pip install requests"  # If `urllib` doesn't work as expected, you can use `requests`
+      - "pip install requests"  # Install requests library
       - "python check_latest_commit.py"  # Call the Python script to check the latest commit
       - "export CONTENT=$(cat out.txt)"  # Store the result in a variable
       - "echo Content of out.txt: $CONTENT"
+      - "mkdir -p artifact_output"  # Ensure the artifact_output directory exists
+      - "touch artifact_output/.keep"  # Create a dummy file to ensure the directory is not empty
 
   build:
     commands:
@@ -23,15 +25,16 @@ phases:
           npm run build # Runs the build script defined in package.json
 
           echo "Preparing artifacts for upload..."
-          mkdir -p artifact_output  # Create a directory to hold the artifacts
           cp -r public/* artifact_output/  # Copy public directory contents
           cp -r src/* artifact_output/     # Copy src directory contents
           cp package.json artifact_output/  # Copy package.json
           cp appspec.yml artifact_output/   # Copy appspec.yml
           cp -r scripts/* artifact_output/  # Copy scripts directory contents
           cp -r build/* artifact_output/    # Copy build directory contents
+        elif [ "$CONTENT" = "backend" ]; then
+          echo "Backend update detected. No frontend build artifacts to prepare."
         else
-          echo "No frontend update detected. Skipping build and exiting..."
+          echo "No update detected. Skipping build and exiting..."
           exit 0
         fi
 
