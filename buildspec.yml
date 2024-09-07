@@ -8,7 +8,7 @@ phases:
 
   pre_build:
     commands:
-      - "echo Checking for the latest updated repository..."
+      - "echo Checking for the latest updated repository to build the output..."
       - "pip install requests"  # If `urllib` doesn't work as expected, you can use `requests`
       - "python check_latest_commit.py"  # Call the Python script to check the latest commit
       - "export CONTENT=$(cat out.txt)"  # Store the result in a variable
