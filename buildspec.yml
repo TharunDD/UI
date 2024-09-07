@@ -4,13 +4,15 @@ phases:
   install:
     runtime-versions:
       nodejs: 18  # Specifies Node.js version 18 for the build environment
+      python: 3.9  # Ensure Python is available
 
   pre_build:
     commands:
-      - "echo Downloading out.txt from S3 ..."
-      - "curl -o out.txt https://codepipeline-ap-south-1-402428956422.s3.ap-south-1.amazonaws.com/outart/out.txt"
-      - "export CONTENT=$(cat out.txt)"
-      - "echo Content of out.txt: $CONTENT"  # Fix: Added quotation marks around echo command
+      - "echo Checking for the latest updated repository..."
+      - "pip install requests"  # If `urllib` doesn't work as expected, you can use `requests`
+      - "python check_latest_commit.py"  # Call the Python script to check the latest commit
+      - "export CONTENT=$(cat out.txt)"  # Store the result in a variable
+      - "echo Content of out.txt: $CONTENT"
 
   build:
     commands:
