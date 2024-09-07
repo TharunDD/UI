@@ -14,15 +14,14 @@ phases:
 
   build:
     commands:
-      - |
-        if [ "$CONTENT" = "frontend" ]; then
-          echo "Detected frontend update. Proceeding with build..."
-          npm install   # Installs all dependencies listed in package.json
-          npm run build # Runs the build script defined in package.json
-        else
-          echo "No frontend update detected. Skipping build..."
-          exit 0
-        fi
+      - if [ "$CONTENT" = "frontend" ]; then
+      - echo "Detected frontend update. Proceeding with build..."
+      - npm install   # Installs all dependencies listed in package.json
+      - npm run build # Runs the build script defined in package.json
+      - else
+      - echo "No frontend update detected. Skipping build..."
+      - exit 0
+      - fi
 
 artifacts:
   files:
