@@ -10,7 +10,7 @@ phases:
       - "echo Downloading out.txt from S3..."
       - "curl -o out.txt https://codepipeline-ap-south-1-402428956422.s3.ap-south-1.amazonaws.com/outart/out.txt"
       - "export CONTENT=$(cat out.txt)"
-      - echo "Content of out.txt: $CONTENT"
+      - "echo Content of out.txt: $CONTENT"  # Fix: Added quotation marks around echo command
 
   build:
     commands:
