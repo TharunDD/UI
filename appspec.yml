@@ -3,7 +3,7 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
+  - source: /artifactout/
     destination: /home/ec2-user/app
     overwrite: true
 
@@ -15,6 +15,6 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: /start_server.sh
+    - location: /home/ec2-user/app/start_server.sh
       timeout: 300
       runas: root
