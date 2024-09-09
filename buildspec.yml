@@ -41,4 +41,4 @@ phases:
 artifacts:
   files:
     - "artifact_output/**/*"  # Include everything from the artifact_output directory
-  discard-paths: yes
+  discard-paths: no
