@@ -4,17 +4,17 @@ os: linux
 
 files:
   - source: /artifactout/
-    destination: /home/ec2-user/app
+    destination: /home/ubuntu/app
     overwrite: true
 
 permissions:
-  - object: /
+  - object: /home/ubuntu/app
     pattern: "**"
-    owner: ec2-user
-    group: ec2-user
+    owner: ubuntu
+    group: ubuntu
 
 hooks:
   ApplicationStart:
-    - location: /home/ec2-user/app/start_server.sh
+    - location: /home/ubuntu/app/start_server.sh
       timeout: 300
       runas: root
